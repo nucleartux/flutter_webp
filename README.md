@@ -8,7 +8,7 @@ This library currently working only on Android. We need your help!
 
 ```yaml
 dependencies:
-  flutter_webp: ^0.1.0
+  flutter_webp: ^0.2.0
 ```
 
 ```dart
