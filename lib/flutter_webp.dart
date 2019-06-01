@@ -166,24 +166,28 @@ Future<ImageInfo> getImageInfo(BuildContext context, ImageProvider provider,
       createLocalImageConfiguration(context, size: size);
   final Completer<ImageInfo> completer = new Completer<ImageInfo>();
   final ImageStream stream = provider.resolve(config);
-  void listener(ImageInfo image, bool sync) {
-    completer.complete(image);
-  }
 
-  void errorListener(dynamic exception, StackTrace stackTrace) {
-    completer.complete(null);
-    FlutterError.reportError(new FlutterErrorDetails(
-      context: 'image load failed ',
-      library: 'flutter_webp',
-      exception: exception,
-      stack: stackTrace,
-      silent: true,
-    ));
-  }
+  ImageStreamListener listener;
 
-  stream.addListener(listener, onError: errorListener);
-  completer.future.then((ImageInfo info) {
-    stream.removeListener(listener);
-  });
+  listener = ImageStreamListener(
+    (ImageInfo image, bool syncCall) {
+      stream.removeListener(listener);
+      completer.complete(image);
+    },
+    onError: (dynamic error, StackTrace stackTrace) {
+      completer.complete(null);
+
+      FlutterError.reportError(new FlutterErrorDetails(
+        library: 'flutter_webp',
+        exception: error,
+        stack: stackTrace,
+        silent: true,
+      ));
+      stream.removeListener(listener);
+    },
+  );
+
+  stream.addListener(listener);
+
   return completer.future;
 }

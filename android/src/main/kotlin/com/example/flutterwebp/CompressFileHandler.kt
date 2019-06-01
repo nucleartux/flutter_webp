@@ -6,7 +6,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.File
 import java.util.concurrent.Executors
 
-class CompressFileHandler(var call: MethodCall, var result: MethodChannel.Result) {
+class CompressFileHandler(var call: MethodCall, var result: MethodChannel.Result) : ResultHandler(result) {
 
     companion object {
         @JvmStatic
@@ -24,10 +24,10 @@ class CompressFileHandler(var call: MethodCall, var result: MethodChannel.Result
             try {
                 val bitmap = BitmapFactory.decodeFile(file)
                 val array = bitmap.compress(minWidth, minHeight, quality, rotate)
-                result.success(array)
+                reply(array)
             } catch (e: Exception) {
                 if (FlutterWebpPlugin.showLog) e.printStackTrace()
-                result.success(null)
+                reply(null)
             }
         }
     }
@@ -47,10 +47,10 @@ class CompressFileHandler(var call: MethodCall, var result: MethodChannel.Result
                 outputStream.use {
                     bitmap.compress(minWidth, minHeight, quality, rotate, outputStream)
                 }
-                result.success(targetPath)
+                reply(targetPath)
             } catch (e: Exception) {
                 if (FlutterWebpPlugin.showLog) e.printStackTrace()
-                result.success(null)
+                reply(null)
             }
         }
     }

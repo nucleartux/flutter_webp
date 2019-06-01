@@ -1,6 +1,6 @@
 name: flutter_webp
-description: Flutter plugin to converting images to webp format
-version: 0.1.0
+description: Flutter plugin for converting (encoding) images to webp format.
+version: 0.2.0
 author: Igor Adrov <nucleartux@gmail.com>
 homepage: https://github.com/nucleartux/flutter_webp
 

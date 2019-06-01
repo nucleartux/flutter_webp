@@ -7,7 +7,7 @@ import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.util.concurrent.Executors
 
-class CompressListHandler(var call: MethodCall, var result: MethodChannel.Result) {
+class CompressListHandler(var call: MethodCall, var result: MethodChannel.Result): ResultHandler(result) {
 
     companion object {
         @JvmStatic
@@ -23,10 +23,10 @@ class CompressListHandler(var call: MethodCall, var result: MethodChannel.Result
             val quality = args[3] as Int
             val rotate = args[4] as Int
             try {
-                result.success(compress(arr, minWidth, minHeight, quality, rotate))
+                reply(compress(arr, minWidth, minHeight, quality, rotate))
             } catch (e: Exception) {
                 if(FlutterWebpPlugin.showLog) e.printStackTrace()
-                result.success(null)
+                reply(null)
             }
         }
     }
