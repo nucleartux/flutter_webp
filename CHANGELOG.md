@@ -1,4 +1,4 @@
-## 0.2.1
+## 0.2.2
 
 - Fix build with flutter >0.12
 
